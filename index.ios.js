@@ -1,53 +1,57 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import React from 'react';
 
-import React, { Component } from 'react';
 import {
   AppRegistry,
+  MapView,
+  View,
   StyleSheet,
-  Text,
-  View
-} from 'react-native';
+  Text
+} from 'react-native'
 
-export default class weather extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+
+var Weather = React.createClass({
+  getInitialState: function(){
+    return {
+      pin : {
+        latitude: 0,
+        longitude: 0
+      }
+    }
+  },
+  render: function(){
+
+    return <View style={styles.container}>
+      <MapView
+        annotations={[this.state.pin]}
+        onRegionChangeComplete={this.onRegionChangeComplete}
+        style={styles.map}>
+      </MapView>
+      <View style={styles.buttonBox}>
+        <Text> waa </Text>
       </View>
-    );
+    </View>
+  },
+  onRegionChangeComplete: function(region) {
+    this.setState({
+      pin: {
+        longitude: region.longitude,
+        latitude: region.latitude
+      }
+    });
   }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
 });
 
-AppRegistry.registerComponent('weather', () => weather);
+var styles = StyleSheet.create({
+  container: {
+    flex: 1, // Fill the entire screen
+    alignItems: 'stretch' // Parent child take as much space as possible (far left to far right)
+  },
+  map: {
+    flex: 3
+  },
+  buttonBox: {
+    flex: 1
+  }
+});
+
+AppRegistry.registerComponent('weather', () => Weather);
