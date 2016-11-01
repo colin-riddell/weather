@@ -1,5 +1,6 @@
 import React from 'react';
-
+// API Key for openweathermap.org:
+// a3edeb38bcf33d1e1780546f59336f0d
 import {
   AppRegistry,
   MapView,
@@ -8,6 +9,7 @@ import {
   Text
 } from 'react-native'
 
+var Api = require('./src/api')
 
 var Weather = React.createClass({
   getInitialState: function(){
@@ -15,7 +17,10 @@ var Weather = React.createClass({
       pin : {
         latitude: 0,
         longitude: 0
-      }
+      },
+      city: '',
+      temperature: '',
+      description: ''
     }
   },
   render: function(){
@@ -38,6 +43,11 @@ var Weather = React.createClass({
         latitude: region.latitude
       }
     });
+    Api(region.latitude, region.longitude)
+      .then((data) => {
+        console.log(data)
+        this.setState(data)
+      });
   }
 });
 
