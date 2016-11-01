@@ -31,8 +31,12 @@ var Weather = React.createClass({
         onRegionChangeComplete={this.onRegionChangeComplete}
         style={styles.map}>
       </MapView>
-      <View style={styles.buttonBox}>
-        <Text> waa </Text>
+      <View style={styles.textWrapper}>
+        <Text style={styles.text}> {this.state.city} </Text>
+        <Text style={styles.text}> {this.state.temperature} </Text>
+        <Text style={styles.text}> {this.state.description} </Text>
+
+
       </View>
     </View>
   },
@@ -43,8 +47,8 @@ var Weather = React.createClass({
         latitude: region.latitude
       }
     });
-    Api(region.latitude, region.longitude)
-      .then((data) => {
+
+    Api(region.latitude, region.longitude).then((data) => {
         console.log(data)
         this.setState(data)
       });
@@ -54,13 +58,20 @@ var Weather = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1, // Fill the entire screen
-    alignItems: 'stretch' // Parent child take as much space as possible (far left to far right)
+    justifyContent: 'center', // ensure centered
+    alignItems: 'stretch', // Parent child take as much space as possible (far left to far right)
+    backgroundColor: '#F5FCFF'
   },
   map: {
-    flex: 3
+    flex: 2,
+    marginTop: 30
   },
-  buttonBox: {
-    flex: 1
+  textWrapper: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  text: {
+    fontSize: 30
   }
 });
 
